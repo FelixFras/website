@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Felix Frasch | Terminal</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="/assets/favicon.png" type="image/png">
+    </head>
+    <body>
+        <header class="unselectable">
+            <div id="left">
+                <p class="orange">Apps</p>
+                <img id="ai" class="svg-icon" src="/assets/ai.svg" alt="deco">
+                <img id="settings" class="svg-icon" src="/assets/settings.svg" alt="deco">
+                <img id="firefox" class="svg-icon" src="/assets/firefox.svg" alt="deco">
+                <img id="files" class="svg-icon" src="/assets/files.svg" alt="deco">
+                <div class="white">user@arch:~</div>
+            </div>
+
+            <div id="screenMenu" class="white">
+                <p class="inactiveScreen">1</p>
+                <p class="activeScreen">2</p>
+                <p class="inactiveScreen">3</p>
+                <p class="inactiveScreen">4</p>
+                <p class="inactiveScreen">5</p>
+            </div>
+
+            <div id="right">
+                <img id="diagram" class="svg-icon" src="/assets/diagram.svg" alt="deco">
+                <img id="stack" class="svg-icon" src="/assets/stack.svg" alt="deco">
+                <img id="shutdown" class="svg-icon" src="/assets/shutdown.svg" alt="deco">
+                <p id="date" class="orange">10:48 Fri</p>
+            </div>
+        </header>
+
+        <div id="content">
+            <div id="console"></div>
+            <label for="input">user@felixfrasch.com:~$ </label>
+            <input type="text" name="input" id="input" autocomplete="off" spellcheck="false">
+            <span id="cursor">█</span>
+        </div>
+
+    </body>
+
+    <script type="module" src="/js/script.js"></script>
+</html>
