@@ -7,13 +7,15 @@ export async function commandWeather(city) {
     }
 
     try {
+        // Conversion city name to coordinates
         const { latitude, longitude } = await getCoordinates(city);
 
         if (!latitude || !longitude) {
             throw new Error("Could not retrieve coordinates.");
         }
 
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m&timeformat=unixtime`;
+        // Fetching weather data
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&timezone=Europe%2FBerlin`;
 
         const response = await fetch(url);
 
@@ -21,28 +23,22 @@ export async function commandWeather(city) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
+        // Parsing JSON response
         const data = await response.json();
 
-        if (data.hourly && data.hourly.time && data.hourly.temperature_2m) {
-            const times = data.hourly.time;
-            const temperatures = data.hourly.temperature_2m;
+        // Displaying temperature
+        if (data.current.temperature_2m) {
 
-            const now = new Date();
-            const nowUnix = Math.floor(now.getTime() / 1000);
-            const index = times.slice().reverse().findIndex(time => time <= nowUnix);
+            const currentTemperature = data.current.temperature_2m;
+            println(`The current temperature in ${city} is ${currentTemperature}°C.`);
+            return currentTemperature;
 
-            if (index !== -1) {
-                const temperatureIndex = times.length - 1 - index;
-                const currentTemperature = temperatures[temperatureIndex];
-                println(`The current temperature in ${city} is ${currentTemperature}°C.`);
-                return currentTemperature;
-            } else {
-                throw new Error("No available time found in the weather data.");
-            }
         } else {
             throw new Error("Weather data is not available.");
         }
+
     } catch (error) {
+
         if (error.message === "Cannot destructure property 'latitude' of '(intermediate value)' as it is null.") {
             println(`Could not retrieve coordinates.`);
         } else {
@@ -51,6 +47,8 @@ export async function commandWeather(city) {
         return null;
     }
 }
+
+
 async function getCoordinates(cityName) {
     const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1&language=en&format=json`;
 
